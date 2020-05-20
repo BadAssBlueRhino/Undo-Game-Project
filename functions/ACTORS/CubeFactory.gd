@@ -43,12 +43,13 @@ func remove_all_actors_from_groups(_name_array):
 			_actors[_actor].remove_from_group(_name_array[_group_name])
 
 # Animation is a beam of light from above
-func _on_actor_generated(_index):
-	print("Actor generating...")
+func _on_actor_respawned(_index):
+	print("Actor respawning...")
 	var _new_actor = actor_scene_path.instance()
+	_new_actor._change_map_starting_index(_index)
+	_new_actor._change_starting_state("respawn")
 	_actors.append(_new_actor)
 	self.add_child(_new_actor)
-	_new_actor.set_current_index(_index)
 
 # Animation is a cell splitting
 func _on_actor_duplicated(_actor):
@@ -56,16 +57,16 @@ func _on_actor_duplicated(_actor):
 	# var _duplicate_index = _actor.get_current_index()
 	var _duplicate_actor = _actor.dupliacte()
 	# _duplicate_actor.set_current_index(_duplicate_index)
+	_actor._change_starting_state("duplicate")
 	_actors.append(_duplicate_actor)
 	self.add_child(_duplicate_actor)
-	pass
 
 func _on_level_restarted(_starting_index):
 	if not get_child_count() == 0:
 		for _child in get_children():
 			_child.queue_free()
 	_actors.clear()
-	_on_actor_generated(_starting_index)
+	_on_actor_respawned(_starting_index)
 
 func get_actors():
 	return _actors

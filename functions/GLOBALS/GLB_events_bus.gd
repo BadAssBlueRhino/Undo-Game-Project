@@ -3,11 +3,13 @@ extends Node
 # Signals relating to input
 
 # warning-ignore:unused_signal
-signal direction_key_pressed(direction)
+signal input_directed(direction_vector)
 # warning-ignore:unused_signal
-signal trigger_locked_group(is_triggered)
+signal lock_started()
 # warning-ignore:unused_signal
-signal undo_action_signaled(event)
+signal lock_finished()
+# warning-ignore:unused_signal
+signal undo_signaled()
 # warning-ignore:unused_signal
 signal gui_restart_pressed()
 

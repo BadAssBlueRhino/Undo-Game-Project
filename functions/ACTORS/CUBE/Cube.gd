@@ -1,44 +1,40 @@
-# Inherits from script named "class_cube.gd"
-extends Cube
+extends KinematicBody2D
 
+# warning-ignore:unused_signal
 signal state_changed
+signal map_index_changed
 
-var current_state = null
-var previous_state
-var STATES_MAP = {
-		"idle" : $States/Idle,
-		"move" : $States/Move,
-		"bump" : $States/Bump,
+onready var _state_machine = $StateMachineNode
+
+var actor_data = {
+		"map_index" : {
+				"staring" : null,
+				"current" : null,
+				# "requested" : null,
+				"history" : [],
+				},
+		"world_position" : null,
 		}
 
-var states_data = {
-		"current_state" : null,
-		"previous_state" : 0
-	}
-
-var current_map_index
-var current_world_position 
-var requested_map_index
-var map_index_log := []
+var state = {
+		"starting" : null,
+		"current" : null,
+		"previous" : null,
+		}
 
 func _ready() -> void:
-	_tween = get_node("Tween")
-	current_state = STATES_MAP["idle"]
-	# _change_state("idle")
+	if state.starting == null:
+		push_error("ERROR: Actor starting state not assigned.")
+	_state_machine._change_state(state.starting)
 
-#func _physics_process(_delta: float) -> void:
-#	var _new_state_name = current_state.update()
-#	if _new_state_name:
-#		_change_state(_new_state_name)
+func _change_map_starting_index(_index):
+	actor_data.map_index.starting = _index
 
-#func _input(_event: InputEvent) -> void:
-#	# var _new_state_name = current_state.handle_input()
-#	# if _new_state_name:
-#	# 	_change_state(_new_state_name)
-#	pass
+func _change_starting_state(_state):
+	state.starting = _state
 
-func _change_state(_state_name):
-	current_state.exit()
-	current_state = STATES_MAP[_state_name]
-	current_state.enter()
-	emit_signal("state_changed", current_state.get_name())
+# will get moved probalby to a state (moving)
+func _change_map_index(_new_index):
+	actor_data.map_index.history.append(actor_data.map_index.current)
+	actor_data.map_index.current = _new_index
+	emit_signal("map_index_changed", actor_data.map_index.current)

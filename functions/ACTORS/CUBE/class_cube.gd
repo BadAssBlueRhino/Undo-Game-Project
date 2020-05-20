@@ -1,5 +1,5 @@
 extends Node2D
-class_name Cube, "res://assets/tile_set/0000.png"
+class_name Cube
 
 var _tween : Object
 

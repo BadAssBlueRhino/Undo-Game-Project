@@ -1,44 +1,28 @@
 extends Node
 
-var _undo_action_map = "ui_keys_undo" setget , get_undo_action_map
-#var up_action_map = 
-var right_action_map = "ui_right"
-var down_action_map = "ui_down"
-var left_action_map = "ui_left"
-
-onready var _direction_actions = [
-		"ui_up", 
-		right_action_map, 
-		down_action_map, 
-		left_action_map] setget , get_direction_actions
-
-func get_undo_action_map():
-	return _undo_action_map
-
-func get_direction_actions():
-	return _direction_actions
 
 func _process(_delta) -> void:
-	var _event = Input
-	var _direction = null
-	if _event.is_action_pressed("ui_up"):
-		_direction = "up"
-	elif _event.is_action_pressed("ui_right"):
-		_direction = "right"
-	elif _event.is_action_pressed("ui_down"):
-		_direction = "down"
-	elif _event.is_action_pressed("ui_left"):
-		_direction = "left"
+	var _input = Input
+	var _input_direction := Vector2()
+	if _input.is_action_pressed("ui_up"):
+		_input_direction = Vector2(0, -1)
+	elif _input.is_action_pressed("ui_right"):
+		_input_direction = Vector2(1, 0)
+	elif _input.is_action_pressed("ui_down"):
+		_input_direction = Vector2(0, 1)
+	elif _input.is_action_pressed("ui_left"):
+		_input_direction = Vector2(-1, 0)
 	
-	if not _direction == null:
-		GLB_events_bus.emit_signal("direction_key_pressed", _direction)
+	if not _input_direction == null:
+		GLB_events_bus.emit_signal("input_directed", _input_direction)
+
 
 func _input(_event: InputEvent) -> void:
-	if _event.is_action_pressed("ui_group_trigger"):
-		GLB_events_bus.emit_signal("trigger_locked_group", true)
-	elif not _event.is_action_pressed("ui_group_trigger"):
-		GLB_events_bus.emit_signal("trigger_locked_group", false)
-	if _event.is_action_pressed("ui_keys_undo") and not _event.is_echo():
-		GLB_events_bus.emit_signal("undo_action_signaled")
-	elif _event.is_action_pressed("ui_cancel") and not _event.is_echo():
+	if _event.is_action_just_pressed("ui_undo"):
+		GLB_events_bus.emit_signal("undo_signaled")
+	elif _event.is_action_pressed("ui_lock"):
+		GLB_events_bus.emit_signal("lock_started")
+	elif not _event.is_action_released("ui_lock"):
+		GLB_events_bus.emit_signal("lock_finished")
+	elif _event.is_action_just_pressed("ui_cancel"):
 		get_tree().quit()

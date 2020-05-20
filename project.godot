@@ -30,7 +30,7 @@ _global_script_classes=[ {
 "path": "res://functions/ACTORS/CUBE/FSM/class_state.gd"
 } ]
 _global_script_class_icons={
-"Cube": "res://assets/tile_set/0000.png",
+"Cube": "",
 "FiniteStateMachine": "",
 "Levels": "",
 "State": ""
@@ -77,12 +77,12 @@ ui_down={
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777234,"unicode":0,"echo":false,"script":null)
  ]
 }
-ui_keys_undo={
+ui_undo={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":true,"meta":false,"command":true,"pressed":false,"scancode":90,"unicode":0,"echo":false,"script":null)
  ]
 }
-ui_group_trigger={
+ui_lock={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"unicode":0,"echo":false,"script":null)
  ]
