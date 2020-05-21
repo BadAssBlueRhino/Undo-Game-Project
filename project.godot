@@ -45,7 +45,6 @@ config/icon="res://icon.png"
 [autoload]
 
 GLB_events_bus="*res://functions/GLOBALS/GLB_events_bus.gd"
-GLB_input_handler="*res://functions/GLOBALS/GLB_input_handler.gd"
 
 [display]
 
