@@ -1,5 +1,8 @@
 extends Node
 
+signal actor_directions(direction_vector)
+signal undo_started()
+signal _lock_started(value)
 
 # Signals relating to input
 

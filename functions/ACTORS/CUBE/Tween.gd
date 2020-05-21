@@ -1,7 +1,5 @@
 extends Tween
 
-onready var directions = GLB_input_handler.get_direction_actions()
-
 var _animation_time:= 0.2 # based on 24 fps
 var _animation_direction : String
 onready var _parent_node = get_parent()

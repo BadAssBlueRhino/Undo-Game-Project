@@ -27,8 +27,7 @@ func _process(_delta: float) -> void:
 		_direction = Vector2(-1, 0)
 	
 	if not _direction == Vector2():
-		_command_node._movement_direction = _direction
-		_command_node._movement_started = true
+		GLB_events_bus.emit_signal("actor_directions", _direction)
 		set_can_process_input(false)
 
 
@@ -39,13 +38,14 @@ func _input(_event: InputEvent) -> void:
 		get_tree().quit()
 	
 	if _event.is_action_just_pressed("ui_undo"):
-		_command_node._undo_started = true
+		GLB_events_bus.emit_signal("undo_started")
 		_event_processed = true
 	elif _event.is_action_pressed("ui_lock"):
+		GLB_events_bus.emit_signal("_lock_started", true)
 		_command_node._lock_started = true
 		_event_processed = true
 	elif not _event.is_action_released("ui_lock"):
-		_command_node._lock_started = false
+		GLB_events_bus.emit_signal("_lock_started", false)
 		_event_processed = true
 	
 	if _event_processed:

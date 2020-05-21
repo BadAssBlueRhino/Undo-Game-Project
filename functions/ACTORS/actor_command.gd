@@ -1,4 +1,4 @@
-extends "res://functions/COMMANDS/InputHandler.gd"
+extends Node
 # change this to a standard node that will house all the actors.
 # make sure to updated the factory so it sends and clears all the actors from here
 # remane it to... ActorCommand

@@ -4,8 +4,8 @@
 [ext_resource path="res://functions/LEVELS/TileMapLoader.gd" type="Script" id=2]
 [ext_resource path="res://functions/ACTORS/CubeFactory.gd" type="Script" id=3]
 [ext_resource path="res://functions/ACTORS/actor_holding_pen.gd" type="Script" id=4]
-[ext_resource path="res://functions/ACTORS/CUBE/actor_input_handler.gd" type="Script" id=5]
-[ext_resource path="res://functions/COMMANDS/CommandNode.gd" type="Script" id=6]
+[ext_resource path="res://functions/ACTORS/actor_input_handler.gd" type="Script" id=5]
+[ext_resource path="res://functions/ACTORS/actor_command.gd" type="Script" id=6]
 
 [node name="Main" type="Node"]
 script = ExtResource( 1 )
