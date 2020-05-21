@@ -1,4 +1,4 @@
-extends Node
+extends State
 
 signal finished(_next_state_name)
 

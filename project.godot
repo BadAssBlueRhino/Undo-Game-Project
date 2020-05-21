@@ -9,15 +9,10 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node2D",
-"class": "Cube",
-"language": "GDScript",
-"path": "res://functions/ACTORS/CUBE/class_cube.gd"
-}, {
 "base": "Node",
 "class": "FiniteStateMachine",
 "language": "GDScript",
-"path": "res://functions/ACTORS/CUBE/FSM/FiniteStateMachine.gd"
+"path": "res://functions/ACTORS/CUBE/FSM/class_FSM.gd"
 }, {
 "base": "TileMap",
 "class": "Levels",
@@ -30,7 +25,6 @@ _global_script_classes=[ {
 "path": "res://functions/ACTORS/CUBE/FSM/class_state.gd"
 } ]
 _global_script_class_icons={
-"Cube": "",
 "FiniteStateMachine": "",
 "Levels": "",
 "State": ""

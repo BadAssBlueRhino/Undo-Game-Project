@@ -1,4 +1,4 @@
-extends FiniteStateMachine
+extends Node
 
 onready var _actor := self.get_owner()
 
@@ -13,20 +13,20 @@ onready var STATES_MAP = {
 		}
 
 func _physics_process(_delta : float) -> void:
-	var _new_state = _actor.state.current.update()
+	var _new_state = STATES_MAP[_actor.state.current].update()
 	if _new_state:
-		_actor._change_state(_new_state)
+		_change_state(_new_state)
 
 func _input(_event : InputEvent) -> void:
-	var _new_state = _actor.state.current.handle_input()
+	var _new_state = STATES_MAP[_actor.state.current].handle_input()
 	if _new_state:
-		_actor._change_state(_new_state)
+		_change_state(_new_state)
 	pass
 
 func _change_state(_new_state):
 	if not _actor.state.current == null:
-		_actor.state.current.exit(_actor)
+		STATES_MAP[_actor.state.current].exit(_actor)
 		_actor.state.previous  = _actor.state.current
 	_actor.state.current = _new_state
-	_actor.state.current.enter(_actor)
+	STATES_MAP[_actor.state.current].enter(_actor)
 	_actor.emit_signal("state_changed", _actor.state.current)

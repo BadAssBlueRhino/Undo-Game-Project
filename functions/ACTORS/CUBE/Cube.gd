@@ -3,10 +3,9 @@ extends KinematicBody2D
 
 # warning-ignore:unused_signal
 signal state_changed
+# warning-ignore:unused_signal
 signal map_index_changed
 
-
-var _can_receive_input := true setget set_can_receive_input, can_receive_input
 
 var actor_data = {
 		"map_index" : {
@@ -24,24 +23,14 @@ var state = {
 		"previous" : null,
 		}
 
-onready var _state_machine = $StateMachineNode
+onready var _state_machine = $ActorStateMachine
+onready var _animation_hub = $ActorAnimationHub
 
 
 func _ready() -> void:
-	GLB_events_bus.connect("actor_commands_started", self, "_on_actor_commands_started")
-	if state.starting == null:
-		push_error("ERROR: Actor starting state not assigned.")
+	if actor_data.map_index.starting == null or state.starting == null:
+		push_error("ERROR: Actor starting state not initalized.")
 	_state_machine._change_state(state.starting)
-
-
-func _on_actor_commands_started():
-	_can_receive_input = false
-
-func set_can_receive_input(_value):
-	_can_receive_input = _value
-
-func can_receive_input():
-	return _can_receive_input
 
 
 func _change_map_starting_index(_index):
