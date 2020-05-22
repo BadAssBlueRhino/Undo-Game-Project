@@ -1,5 +1,11 @@
 extends AnimationPlayer
 
+
+# figures how to set the time for everything (Animations)
+# figure out how to remove micro freezes from moving to moving state, without idle inbetween
+
+
+
 # Declare member variables here. Examples:
 # var a: int = 2
 # var b: String = "text"

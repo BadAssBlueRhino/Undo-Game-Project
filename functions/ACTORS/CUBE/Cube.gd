@@ -43,15 +43,15 @@ func initalize_state(_starting_index, _target_index = null):
 	if _target_index == null:
 		_starting_state_name = "respawn"
 		state.starting = _starting_state_name
-		actor_data.map_index.starting = _starting_index
+		actor_data.map_index.starting = _starting_index # could technically just be in histroy.
 		actor_data.map_index.current = _starting_index
+		actor_data.map_index.history.append(_starting_index)
 	elif not _target_index == null:
 		_starting_state_name = "duplicate"
 
 func _ready() -> void:
 	actor_data.world_position = get_world_position(actor_data.map_index.starting)
 	position = actor_data.world_position
-	# visible = true
 	for state_node in $States.get_children():
 		state_node.connect("finished", self, "_change_state")
 	if state.starting == null:
@@ -66,7 +66,7 @@ func get_current_state_name():
 	return state.current.get_name()
 
 
-func _input(_event: InputEvent) -> void:
+func _input(_event) -> void:
 	if not _event.is_action("ui_lock"):
 		return
 	var _new_state_name = state.current.handle_input(self, _event)
@@ -76,13 +76,13 @@ func _input(_event: InputEvent) -> void:
 
 func _process_movement(_direction_vector):
 	actor_data.map_index.target = actor_data.map_index.current + _direction_vector
-	var _new_state_name = state.current.handle_input(self, "update_position")
+	var _new_state_name = state.current.handle_key_event(self, "update_position")
 	if _new_state_name:
 		_change_state(_new_state_name)
 
 
 func _process_duplication():
-	var _new_state_name = state.current.handle_input(self, "duplicate")
+	var _new_state_name = state.current.handle_key_event(self, "duplicate")
 	if _new_state_name:
 		_change_state(_new_state_name)
 

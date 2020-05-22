@@ -26,18 +26,23 @@ func enter(_host):
 
 func _on_animation_finished(_animation_name):
 	if _animation_name == _direction:
-		emit_signal("finished", "idle")
+		if Input.is_action_pressed(_direction):
+			Input.action_press(_direction)
+			Input.action_release(_direction)
+			print("Auto pressing again")
+		else:
+			emit_signal("finished", "idle")
 
 
 func _get_direction(_host):
 	if not _host_current_index.x == _host_target_index.x:
 		if _host_current_index.x < _host_target_index.x:
-			return "move_right"
+			return "ui_right"
 		else:
-			return "move_left"
+			return "ui_left"
 	
 	elif not _host_current_index.y == _host_target_index.y:
 		if _host_current_index.y < _host_target_index.y:
-			return "move_down"
+			return "ui_down"
 		else:
-			return "move_up"
+			return "ui_up"
