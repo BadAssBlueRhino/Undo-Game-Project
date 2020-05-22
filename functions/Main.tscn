@@ -1,11 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://functions/Main.gd" type="Script" id=1]
 [ext_resource path="res://functions/LEVELS/TileMapLoader.gd" type="Script" id=2]
 [ext_resource path="res://functions/ACTORS/actor_factory.gd" type="Script" id=3]
 [ext_resource path="res://functions/ACTORS/actor_holding_pen.gd" type="Script" id=4]
-[ext_resource path="res://functions/ACTORS/actor_input_handler.gd" type="Script" id=5]
-[ext_resource path="res://functions/ACTORS/actor_command.gd" type="Script" id=6]
 
 [node name="Main" type="Node"]
 script = ExtResource( 1 )
@@ -18,9 +16,3 @@ script = ExtResource( 3 )
 
 [node name="ActorHoldingPen" type="Node" parent="ActorFactory"]
 script = ExtResource( 4 )
-
-[node name="ActorInputHandler" type="Node" parent="."]
-script = ExtResource( 5 )
-
-[node name="ActorCommand" type="Node" parent="ActorInputHandler"]
-script = ExtResource( 6 )

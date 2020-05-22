@@ -12,8 +12,8 @@ var actor_data = {
 		"staring" : null,
 		"current" : null,
 		"target" : null,
+		"history" : [],
 		},
-	"history" : [],
 	"world_position" : null,
 }
 
@@ -48,20 +48,28 @@ func _ready() -> void:
 	_change_state(state.starting)
 
 
-func _physics_process(_delta : float) -> void:
-	var _new_state = state.current.update(self, _delta)
-	if _new_state:
-		_change_state(_new_state)
+func get_current_state_name():
+	return state.current.get_name()
 
 
-func _input(_event : InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
+	if not _event.is_action("ui_lock"):
+		return
 	var _new_state_name = state.current.handle_input(self, _event)
 	if _new_state_name:
 		_change_state(_new_state_name)
 
 
-func _on_ActorAnimationHub_animation_finished(animation_name) -> void:
-	state.current._on_animation_finished(animation_name)
+func _process_movement():
+	var _new_state_name = state.current.handle_input(self, "update_position")
+	if _new_state_name:
+		_change_state(_new_state_name)
+
+
+func _process_duplication():
+	var _new_state_name = state.current.handle_input(self, "duplicate")
+	if _new_state_name:
+		_change_state(_new_state_name)
 
 
 func _change_state(_new_state_name):
@@ -72,11 +80,15 @@ func _change_state(_new_state_name):
 	state.current.enter(self)
 	emit_signal("state_changed", state.current)
 
+
+func _on_ActorAnimationHub_animation_finished(animation_name) -> void:
+	state.current._on_animation_finished(animation_name)
+
+
 # -----
 
-func initalize_duplication(_index, _target_index):
-	actor_data.map_index.current = _index
-	actor_data.map_index.target = _target_index
+# Need to work on the Tween and where to call map_to_world, and update the position.
+# Work on all the states moving forward.
 
 
 # will get moved probalby to a state (moving)
