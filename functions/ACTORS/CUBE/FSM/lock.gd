@@ -1,6 +1,6 @@
 extends State
 
-signal finished(_next_state_name)
+# signal finished(_next_state_name)
 
 # Initialize the state. E.g. change the animation
 func enter(_host):

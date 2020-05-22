@@ -14,14 +14,14 @@ func _ready() -> void:
 
 func _on_level_restarted(_starting_index):
 	_holding_pen._init()
-	_on_actor_respawned(_starting_index)
+	_actor_respawned(_starting_index)
 
 
 # Animation is a beam of light from above
-func _on_actor_respawned(_index):
+func _actor_respawned(_index):
 	print("Actor respawning...")
 	var _new_actor = actor_scene_path.instance()
-	_new_actor.respawn(_index)
+	_new_actor.initalize_state(_index)
 	_holding_pen.add_actor(_new_actor)
 
 
@@ -29,5 +29,5 @@ func _on_actor_respawned(_index):
 func _on_actor_duplicated(_actor, _target_index):
 	print("Actor duplicating...")
 	var _duplicate_actor = _actor.dupliacte()
-	_duplicate_actor.initalize_duplication(_actor.map_index.current, _target_index)
+	_duplicate_actor.initalize_state( _actor.map_index.current, _target_index)
 	_holding_pen.add_actor(_duplicate_actor)

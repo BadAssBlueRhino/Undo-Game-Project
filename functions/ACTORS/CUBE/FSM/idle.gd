@@ -1,9 +1,9 @@
 extends State
 
-signal finished(_next_state_name)
+# signal finished(_next_state_name)
 
 func enter(_host):
-	_host.get_node("ActorAnimationHub").start_animation("idle")
+	_host._animation_player.play("idle")
 
 func exit(_host):
 	return
@@ -11,6 +11,7 @@ func exit(_host):
 func handle_input(_host, _event):
 	if _event == "update_position":
 		_handle_movement()
+		return "move"
 	elif _event.is_action_pressed("ui_lock"):
 		return "lock"
 

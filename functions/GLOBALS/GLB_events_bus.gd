@@ -4,22 +4,25 @@ signal actor_directions(direction_vector)
 signal undo_started()
 signal _lock_started(value)
 
+signal map_loaded()
+signal map_to_world_function(function_reference)
+
 # Signals relating to input
 
+## warning-ignore:unused_signal
+#signal actor_commands_started()
+## warning-ignore:unused_signal
+#signal actor_commands_finished()
+## warning-ignore:unused_signal
+#signal actor_generated(index)
 # warning-ignore:unused_signal
-signal actor_commands_started()
-# warning-ignore:unused_signal
-signal actor_commands_finished()
-# warning-ignore:unused_signal
-signal actor_generated(index)
-# warning-ignore:unused_signal
-signal actor_duplicated(actor)
+#signal actor_duplicated(actor)
 
 
-# warning-ignore:unused_signal
-signal actor_index_update_requested(actor, current_index, new_index)
-# warning-ignore:unused_signal
-signal actor_index_update_granted(actor, new_position)
+## warning-ignore:unused_signal
+#signal actor_index_update_requested(actor, current_index, new_index)
+## warning-ignore:unused_signal
+#signal actor_index_update_granted(actor, new_position)
 
 
 # Signal relating to the level class
