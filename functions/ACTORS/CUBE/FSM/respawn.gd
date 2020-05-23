@@ -2,6 +2,7 @@ extends State
 
 
 func enter(_host):
+	print("Respawning: ", _host)
 	_host._animation_player.play("respawn")
 
 

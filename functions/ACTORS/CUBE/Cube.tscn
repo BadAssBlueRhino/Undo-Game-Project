@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=73 format=2]
 
 [ext_resource path="res://functions/ACTORS/CUBE/cube.gd" type="Script" id=1]
 [ext_resource path="res://assets/tile_set/0000.png" type="Texture" id=2]
@@ -57,8 +57,11 @@
 [ext_resource path="res://functions/ACTORS/CUBE/FSM/respawn.gd" type="Script" id=55]
 [ext_resource path="res://functions/ACTORS/CUBE/FSM/idle.gd" type="Script" id=56]
 [ext_resource path="res://functions/ACTORS/CUBE/FSM/move.gd" type="Script" id=57]
-[ext_resource path="res://functions/ACTORS/CUBE/FSM/lock.gd" type="Script" id=58]
-[ext_resource path="res://functions/ACTORS/CUBE/Animation/animation_player.gd" type="Script" id=59]
+[ext_resource path="res://functions/ACTORS/CUBE/FSM/bump.gd" type="Script" id=58]
+[ext_resource path="res://functions/ACTORS/CUBE/FSM/lock.gd" type="Script" id=59]
+[ext_resource path="res://functions/ACTORS/CUBE/FSM/duplicate.gd" type="Script" id=60]
+[ext_resource path="res://functions/ACTORS/CUBE/FSM/cool_down.gd" type="Script" id=61]
+[ext_resource path="res://functions/ACTORS/CUBE/Animation/animation_player.gd" type="Script" id=62]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 72.3355
@@ -295,13 +298,12 @@ position = Vector2( 82.6, -21.8 )
 shape = SubResource( 1 )
 
 [node name="TextureNode" type="Position2D" parent="."]
+editor/display_folded = true
 position = Vector2( 82.6, -21.8 )
 
 [node name="AnimatedTexture" type="AnimatedSprite" parent="TextureNode"]
 frames = SubResource( 2 )
-animation = "roll_right"
-frame = 24
-playing = true
+animation = "idle"
 
 [node name="StateLabel" type="Label" parent="TextureNode"]
 margin_left = -57.0
@@ -325,13 +327,16 @@ script = ExtResource( 56 )
 script = ExtResource( 57 )
 
 [node name="Bump" type="Node" parent="States"]
-
-[node name="Lock" type="Node" parent="States"]
 script = ExtResource( 58 )
 
+[node name="Lock" type="Node" parent="States"]
+script = ExtResource( 59 )
+
 [node name="Duplicate" type="Node" parent="States"]
+script = ExtResource( 60 )
 
 [node name="CoolDown" type="Node" parent="States"]
+script = ExtResource( 61 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/idle = SubResource( 3 )
@@ -342,7 +347,7 @@ anims/ui_down = SubResource( 8 )
 anims/ui_left = SubResource( 9 )
 anims/ui_right = SubResource( 7 )
 anims/ui_up = SubResource( 10 )
-script = ExtResource( 59 )
+script = ExtResource( 62 )
 
 [node name="Tween" type="Tween" parent="."]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

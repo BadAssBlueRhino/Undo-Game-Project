@@ -15,6 +15,7 @@ func _init() -> void:
 
 
 func _ready() -> void:
+	# warning-ignore:return_value_discarded
 	GLB_events_bus.connect("map_to_world_function", self, "_on_map_to_world_function")
 
 
@@ -29,7 +30,7 @@ func add_actor(_actor) -> void:
 	add_child(_actor)
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var _input := Input
 	var _direction_vector := Vector2()
 	
@@ -76,7 +77,6 @@ func _check_movement(_event, _vector = null) -> bool:
 			_new_target_index = _event_actors[_event_actor].actor_data.map_index.current + _vector
 		
 		if not _map_loader.is_index_valid(_new_target_index):
-			print("Space is invalid")
 			return false
 		
 		_event_actors[_event_actor].actor_data.map_index.target = _new_target_index

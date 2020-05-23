@@ -16,5 +16,4 @@ func _on_animation_finished(_animation_name):
 
 func handle_key_event(_host, _key_event_string):
 	if _key_event_string == "update_position":
-		print("Handling movement.")
 		return "move"

@@ -16,10 +16,10 @@ func _ready() -> void:
 		return
 	_change_state(state.starting)
 
-
+# The animation speed still breaks when swtiching time
 func set_animation_speed():
 	var speed_scale = 1 / _animation_speed
-	_animation_player.playback_speed = speed_scale
+	_animation_player.playback_speed = speed_scale # Fix this
 	_animated_sprite.speed_scale = speed_scale
 
 
@@ -38,8 +38,6 @@ func _input(_event) -> void:
 
 
 func _process_movement(_direction_vector):
-	print("updating target")
-	# actor_data.map_index.target = actor_data.map_index.current + _direction_vector
 	var _new_state_name = state.current.handle_key_event(self, "update_position")
 	if _new_state_name:
 		_change_state(_new_state_name)

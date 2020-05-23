@@ -7,8 +7,6 @@ onready var _holding_pen = $ActorHoldingPen
 
 func _ready() -> void:
 	# warning-ignore:return_value_discarded
-	GLB_events_bus.connect("actor_duplicated", self, "_on_actor_duplicated")
-	# warning-ignore:return_value_discarded
 	GLB_events_bus.connect("level_restarted", self, "_on_level_restarted")
 
 
@@ -26,7 +24,7 @@ func _actor_respawned(_index):
 
 
 # Animation is a cell splitting/ Cell opening up like a robot factory and a small guy rolls out.
-func _on_actor_duplicated(_actor, _target_index):
+func _actor_duplicated(_actor, _target_index):
 	print("Actor duplicating...")
 	var _duplicate_actor = _actor.dupliacte()
 	_duplicate_actor.initalize_state( _actor.map_index.current, _target_index)

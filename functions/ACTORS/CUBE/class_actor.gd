@@ -2,10 +2,11 @@ extends KinematicBody2D
 class_name Actor
 
 
-# warning-ignore:unused_signal
 signal state_changed
 
-var _animation_speed = 0.2 # seconds
+
+# warning-ignore:unused_class_variable
+var _animation_speed : float = 0.2 # seconds
 
 var actor_data = {
 	"direction" : null,

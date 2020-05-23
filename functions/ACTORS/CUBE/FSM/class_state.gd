@@ -1,6 +1,7 @@
 extends Node
 class_name State
 
+# warning-ignore:unused_signal
 signal finished(_next_state_name)
 
 # Initialize the state. E.g. change the animation
