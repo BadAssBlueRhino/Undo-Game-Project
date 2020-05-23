@@ -1,12 +1,10 @@
 extends State
 
-# signal finished(_next_state_name)
 
-# Initialize the state. E.g. change the animation
 func enter(_host):
 	_host._animation_player.play("lock")
 
-# Clean up the state. Reinitialize values like a timer
+
 func exit(_host):
 	# disconnect to movement signal in actor holding pen
 	return

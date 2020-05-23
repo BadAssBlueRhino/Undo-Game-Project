@@ -1,19 +1,14 @@
 extends AnimationPlayer
 
 
+#onready var _host = self.get_owner()
+
+
 # figures how to set the time for everything (Animations)
 # figure out how to remove micro freezes from moving to moving state, without idle inbetween
 
 
-
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass
+#func _ready() -> void:
+#	var speed_scale = 1 / _host._animation_speed
+#	playback_speed = speed_scale
+#	_host._animated_sprite.speed_scale = speed_scale
