@@ -81,35 +81,37 @@ func _input(_event: InputEvent) -> void:
 
 func _check_movement(_event, _vector = null) -> bool:
 	var _event_actors := []
-	var _new_target_index
 	
-	for _actor in _all_actors.size():
-		if _all_actors[_actor].get_current_state_name() == _event:
-			_event_actors.append(_all_actors[_actor])
+	for _actor in _all_actors:
+		if _actor.get_current_state_name() == _event:
+			_event_actors.append(_actor)
 	
 	if _event_actors.size() == 0:
+		print("False 1")
 		return false
 	
-	for _event_actor in _event_actors.size():
-		if _event == "Lock":
-			if not _event_actors[_event_actor].actor_data.map_index.history.size() == 0:
-				_new_target_index = _event_actors[_event_actor].actor_data.map_index.history[0]
-		elif _event == "IdleDuplicate":
-			if not _event_actors[_event_actor].actor_data.map_index.history.size() == 0:
-				_new_target_index = _event_actors[_event_actor].actor_data.map_index.history[0]
+	_get_target_index(_event, _vector, _event_actors)
+	
+	if not check_target_index(_event_actors):
+		return false
+	return true
+
+
+func _get_target_index(_event, _vector, _event_actors):
+	var _new_target_index
+	for _event_actor in _event_actors:
+		if _event in ["Lock", "IdleDuplicate"]:
+			if not _event_actor.actor_data.map_index.history.size() == 0:
+				_new_target_index = _event_actor.actor_data.map_index.history[0]
 		elif _event == "Idle":
-			_new_target_index = _event_actors[_event_actor].actor_data.map_index.current + _vector
+			_new_target_index = _event_actor.actor_data.map_index.current + _vector
 		
 		if not _map_loader.is_index_valid(_new_target_index):
+			print("False 2")
 			return false
-		
-		_event_actors[_event_actor].actor_data.map_index.target = _new_target_index
-		_get_target_direction(_event_actors[_event_actor], _new_target_index)
-		
-		for _actor in _all_actors.size():
-			if _new_target_index == _all_actors[_actor].actor_data.map_index.current:
-				return false
-	return true
+		_event_actor.actor_data.map_index.target = _new_target_index
+		_get_target_direction(_event_actor, _new_target_index)
+
 
 func _get_target_direction(_host, _host_target_index):
 	var _host_current_index = _host.actor_data.map_index.current
@@ -127,3 +129,17 @@ func _get_target_direction(_host, _host_target_index):
 			_target_direction = "ui_up"
 	
 	_host.actor_data.direction = _target_direction
+
+
+func check_target_index(_event_actors) -> bool:
+	for _event_actor in _event_actors:
+		for _actor in _all_actors:
+			if _event_actors.has(_actor) and (not _actor == _event_actor):
+				if _event_actor.actor_data.map_index.target == _actor.actor_data.map_index.target:
+					print("False 3")
+					return false
+			elif not _event_actors.has(_actor):
+				if _event_actor.actor_data.map_index.target == _actor.actor_data.map_index.current:
+					print("False 4")
+					return false
+	return true

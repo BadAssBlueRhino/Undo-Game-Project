@@ -29,9 +29,11 @@ func _actor_respawned(_index):
 func _on_duplicate_actor(_actor, _target_index):
 	print("Actor duplicating...")
 	var _duplicate_actor = _actor.duplicate()
+	copy_important_data(_actor, _duplicate_actor)
 	_duplicate_actor.initalize_state( _actor.actor_data.map_index.current, _target_index)
-	_duplicate_actor.actor_data.direction = _actor.actor_data.direction
-	_duplicate_actor.actor_data.map_index.current = Vector2() + _actor.actor_data.map_index.current
-	_duplicate_actor.actor_data.map_index.starting = _duplicate_actor.actor_data.map_index.current
-	_duplicate_actor.actor_data.map_index.history = [] + _actor.actor_data.map_index.history
 	_holding_pen.add_actor(_duplicate_actor)
+
+
+func copy_important_data(_actor, _duplicate_actor):
+	_duplicate_actor.actor_data = _actor.actor_data.duplicate(true)
+	_duplicate_actor.state = _actor.state.duplicate(true)
