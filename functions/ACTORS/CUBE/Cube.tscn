@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=2]
+[gd_scene load_steps=76 format=2]
 
 [ext_resource path="res://functions/ACTORS/CUBE/cube.gd" type="Script" id=1]
 [ext_resource path="res://assets/tile_set/0000.png" type="Texture" id=2]
@@ -60,8 +60,9 @@
 [ext_resource path="res://functions/ACTORS/CUBE/FSM/bump.gd" type="Script" id=58]
 [ext_resource path="res://functions/ACTORS/CUBE/FSM/lock.gd" type="Script" id=59]
 [ext_resource path="res://functions/ACTORS/CUBE/FSM/duplicate.gd" type="Script" id=60]
-[ext_resource path="res://functions/ACTORS/CUBE/FSM/cool_down.gd" type="Script" id=61]
-[ext_resource path="res://functions/ACTORS/CUBE/Animation/animation_player.gd" type="Script" id=62]
+[ext_resource path="res://functions/ACTORS/CUBE/FSM/duplicate_idle.gd" type="Script" id=61]
+[ext_resource path="res://functions/ACTORS/CUBE/FSM/cool_down.gd" type="Script" id=62]
+[ext_resource path="res://functions/ACTORS/CUBE/Animation/animation_player.gd" type="Script" id=63]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 72.3355
@@ -94,8 +95,25 @@ animations = [ {
 "speed": 24.0
 } ]
 
+[sub_resource type="Animation" id=11]
+resource_name = "CoolDown"
+length = 1.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.368627, 0.368627, 0.368627, 1 ), Color( 0.313726, 0.231373, 0.231373, 1 ), Color( 0.368627, 0.368627, 0.368627, 1 ) ]
+}
+
 [sub_resource type="Animation" id=3]
-resource_name = "idle"
+resource_name = "Idle"
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -134,9 +152,74 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 0 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "IdleDuplicate"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("TextureNode/AnimatedTexture:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "idle" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TextureNode/AnimatedTexture:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("TextureNode/AnimatedTexture:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=4]
-resource_name = "lock"
+resource_name = "Lock"
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
@@ -148,6 +231,21 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 0.368627, 0.368627, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "Respawn"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -166,22 +264,7 @@ tracks/0/keys = {
 "values": [ Color( 0.368627, 0.368627, 0.368627, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "respawn"
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
-
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 resource_name = "ui_down"
 tracks/0/type = "value"
 tracks/0/path = NodePath("TextureNode/AnimatedTexture:animation")
@@ -208,7 +291,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=8]
 resource_name = "ui_left"
 tracks/0/type = "value"
 tracks/0/path = NodePath("TextureNode/AnimatedTexture:animation")
@@ -235,8 +318,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "ui_right"
+[sub_resource type="Animation" id=9]
 tracks/0/type = "value"
 tracks/0/path = NodePath("TextureNode/AnimatedTexture:animation")
 tracks/0/interp = 1
@@ -335,19 +417,24 @@ script = ExtResource( 59 )
 [node name="Duplicate" type="Node" parent="States"]
 script = ExtResource( 60 )
 
-[node name="CoolDown" type="Node" parent="States"]
+[node name="IdleDuplicate" type="Node" parent="States"]
 script = ExtResource( 61 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/idle = SubResource( 3 )
-anims/lock = SubResource( 4 )
-anims/release_lock = SubResource( 5 )
-anims/respawn = SubResource( 6 )
-anims/ui_down = SubResource( 8 )
-anims/ui_left = SubResource( 9 )
-anims/ui_right = SubResource( 7 )
-anims/ui_up = SubResource( 10 )
+[node name="CoolDown" type="Node" parent="States"]
 script = ExtResource( 62 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/CoolDown = SubResource( 11 )
+anims/Idle = SubResource( 3 )
+anims/IdleDuplicate = SubResource( 12 )
+anims/Lock = SubResource( 4 )
+anims/Respawn = SubResource( 6 )
+anims/release_lock = SubResource( 5 )
+anims/ui_down = SubResource( 7 )
+anims/ui_left = SubResource( 8 )
+anims/ui_right = SubResource( 9 )
+anims/ui_up = SubResource( 10 )
+script = ExtResource( 63 )
 
 [node name="Tween" type="Tween" parent="."]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

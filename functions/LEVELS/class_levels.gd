@@ -22,4 +22,4 @@ func get_valid_map_indexs() -> Array:
 	return get_used_cells()
 
 func _convert_map_to_world(_index):
-	return map_to_world(_index)
+	return map_to_world(_index) + position

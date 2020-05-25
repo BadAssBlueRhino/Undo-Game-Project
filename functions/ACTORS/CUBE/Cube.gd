@@ -44,6 +44,12 @@ func _process_movement(_direction_vector):
 
 
 func _process_duplication():
-	var _new_state_name = state.current.handle_key_event(self, "duplicate")
+	var _new_state_name = state.current.handle_key_event(self, "Duplicate")
+	if _new_state_name:
+		_change_state(_new_state_name)
+
+
+func _process_undo():
+	var _new_state_name = state.current.handle_key_event(self, "Undo")
 	if _new_state_name:
 		_change_state(_new_state_name)

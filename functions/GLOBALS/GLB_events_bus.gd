@@ -14,3 +14,5 @@ signal map_to_world_function(function_reference)
 signal gui_restart_pressed()
 # warning-ignore:unused_signal
 signal level_restarted(starting_index)
+# warning-ignore:unused_signal
+signal duplicate_actor(actor, target_index)

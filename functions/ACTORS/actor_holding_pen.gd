@@ -3,6 +3,7 @@ extends Node
 
 var _all_actors := []
 var _map_to_world_func
+var all_actors_can_receive_input := true
 
 onready var _map_loader = get_node("../../TileMapLoader")
 
@@ -31,6 +32,9 @@ func add_actor(_actor) -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	can_actors_receive_input()
+	if not all_actors_can_receive_input:
+		return
 	var _input := Input
 	var _direction_vector := Vector2()
 	
@@ -50,16 +54,29 @@ func _physics_process(_delta: float) -> void:
 		_all_actors[_actor]._process_movement(_direction_vector)
 
 
+func can_actors_receive_input():
+	for _actor in _all_actors:
+		if _actor.state.can_receive == false:
+			return
+	all_actors_can_receive_input = true
+
+
 func _input(_event: InputEvent) -> void:
+	if not all_actors_can_receive_input:
+		return
 	
 	if _event.is_action_pressed("ui_cancel"):
 		get_tree().quit()
 	
+	
+	
 	if _event.is_action_pressed("ui_undo"):
-		if not _check_movement("Lock"):
-			return
-		for _actor in _all_actors.size():
-			_all_actors[_actor]._process_duplication()
+		if _check_movement("Lock"):
+			for _actor in _all_actors.size():
+				_all_actors[_actor]._process_duplication()
+		elif _check_movement("IdleDuplicate"):
+			for _actor in _all_actors.size():
+				_all_actors[_actor]._process_undo()
 
 
 func _check_movement(_event, _vector = null) -> bool:
@@ -70,9 +87,16 @@ func _check_movement(_event, _vector = null) -> bool:
 		if _all_actors[_actor].get_current_state_name() == _event:
 			_event_actors.append(_all_actors[_actor])
 	
+	if _event_actors.size() == 0:
+		return false
+	
 	for _event_actor in _event_actors.size():
 		if _event == "Lock":
-			_new_target_index = _event_actors[_event_actor].actor_data.map_index.history[0]
+			if not _event_actors[_event_actor].actor_data.map_index.history.size() == 0:
+				_new_target_index = _event_actors[_event_actor].actor_data.map_index.history[0]
+		elif _event == "IdleDuplicate":
+			if not _event_actors[_event_actor].actor_data.map_index.history.size() == 0:
+				_new_target_index = _event_actors[_event_actor].actor_data.map_index.history[0]
 		elif _event == "Idle":
 			_new_target_index = _event_actors[_event_actor].actor_data.map_index.current + _vector
 		
