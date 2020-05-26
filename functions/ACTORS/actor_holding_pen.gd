@@ -33,25 +33,30 @@ func add_actor(_actor) -> void:
 
 func _physics_process(_delta: float) -> void:
 	can_actors_receive_input()
+	
 	if not all_actors_can_receive_input:
 		return
-	var _input := Input
+	var _event := Input
 	var _direction_vector := Vector2()
 	
-	if _input.is_action_pressed("ui_up"):
+	if _event.is_action_pressed("ui_lock"):
+		for _actor in _all_actors:
+			_actor._input(_event)
+	
+	if _event.is_action_pressed("ui_up"):
 		_direction_vector = Vector2(0, -1)
-	elif _input.is_action_pressed("ui_right"):
+	elif _event.is_action_pressed("ui_right"):
 		_direction_vector = Vector2(1, 0)
-	elif _input.is_action_pressed("ui_down"):
+	elif _event.is_action_pressed("ui_down"):
 		_direction_vector = Vector2(0, 1)
-	elif _input.is_action_pressed("ui_left"):
+	elif _event.is_action_pressed("ui_left"):
 		_direction_vector = Vector2(-1, 0)
 	
 	if _direction_vector == Vector2() or not _check_movement("Idle", _direction_vector):
 		return
 	
-	for _actor in _all_actors.size():
-		_all_actors[_actor]._process_movement(_direction_vector)
+	for _actor in _all_actors:
+		_actor._process_movement(_direction_vector)
 
 
 func can_actors_receive_input():
@@ -67,8 +72,8 @@ func _input(_event: InputEvent) -> void:
 	
 	if _event.is_action_pressed("ui_cancel"):
 		get_tree().quit()
-	
-	
+	elif _event.is_action_pressed("ui_restart"):
+		GLB_events_bus.emit_signal("gui_restart_pressed")
 	
 	if _event.is_action_pressed("ui_undo"):
 		if _check_movement("Lock"):
@@ -90,14 +95,18 @@ func _check_movement(_event, _vector = null) -> bool:
 		print("False 1")
 		return false
 	
-	_get_target_index(_event, _vector, _event_actors)
+	if not _check_if_valid(_event, _vector, _event_actors):
+		return false
 	
-	if not check_target_index(_event_actors):
+	if _event in ["Lock", "IdleDuplicate"] and not _check_event_specific_conflicts(_event, _event_actors):
+		return false
+	
+	if not _check_if_conflict(_event_actors):
 		return false
 	return true
 
 
-func _get_target_index(_event, _vector, _event_actors):
+func _check_if_valid(_event, _vector, _event_actors):
 	var _new_target_index
 	for _event_actor in _event_actors:
 		if _event in ["Lock", "IdleDuplicate"]:
@@ -111,6 +120,17 @@ func _get_target_index(_event, _vector, _event_actors):
 			return false
 		_event_actor.actor_data.map_index.target = _new_target_index
 		_get_target_direction(_event_actor, _new_target_index)
+	return true
+
+
+func _check_event_specific_conflicts(_event, _event_actors):
+	for _event_actor in _event_actors:
+		for _actor in _all_actors:
+			if _event_actors.has(_actor) and (not _actor == _event_actor):
+				if _event_actor.actor_data.map_index.target == _actor.actor_data.map_index.current:
+					print("False 5")
+					return false
+	return true
 
 
 func _get_target_direction(_host, _host_target_index):
@@ -131,7 +151,7 @@ func _get_target_direction(_host, _host_target_index):
 	_host.actor_data.direction = _target_direction
 
 
-func check_target_index(_event_actors) -> bool:
+func _check_if_conflict(_event_actors) -> bool:
 	for _event_actor in _event_actors:
 		for _actor in _all_actors:
 			if _event_actors.has(_actor) and (not _actor == _event_actor):

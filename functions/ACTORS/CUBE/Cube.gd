@@ -30,7 +30,7 @@ func get_world_position(_index):
 
 
 func _input(_event) -> void:
-	if not _event.is_action("ui_lock") or state.current == null:
+	if not _event.is_action_pressed("ui_lock") or state.current == null:
 		return
 	var _new_state_name = state.current.handle_input(self, _event)
 	if _new_state_name:

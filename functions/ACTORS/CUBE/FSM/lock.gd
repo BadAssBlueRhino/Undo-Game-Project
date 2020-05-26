@@ -10,9 +10,10 @@ func exit(_host):
 	# disconnect to movement signal in actor holding pen
 	return
 
-func handle_input(_host, _event):
-	if _event.is_action_released("ui_lock"):
+func update(_host, _delta):
+	if not Input.is_action_pressed("ui_lock"):
 		_host._animation_player.play("release_lock")
+
 
 func handle_key_event(_host, _key_event_string):
 	if not _key_event_string == "Duplicate":

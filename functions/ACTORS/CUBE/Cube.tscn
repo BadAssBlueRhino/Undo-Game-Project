@@ -84,18 +84,18 @@ animations = [ {
 "name": "roll_up",
 "speed": 24.0
 }, {
-"frames": [ ExtResource( 52 ), ExtResource( 51 ), ExtResource( 50 ), ExtResource( 49 ), ExtResource( 48 ), ExtResource( 47 ), ExtResource( 46 ), ExtResource( 45 ), ExtResource( 44 ), ExtResource( 43 ), ExtResource( 42 ), ExtResource( 41 ), ExtResource( 40 ), ExtResource( 39 ), ExtResource( 38 ), ExtResource( 37 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 34 ), ExtResource( 33 ), ExtResource( 32 ), ExtResource( 31 ), ExtResource( 30 ), ExtResource( 29 ), ExtResource( 28 ) ],
-"loop": false,
-"name": "roll_down",
-"speed": 24.0
-}, {
 "frames": [ ExtResource( 27 ), ExtResource( 26 ), ExtResource( 25 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 22 ), ExtResource( 21 ), ExtResource( 20 ), ExtResource( 19 ), ExtResource( 18 ), ExtResource( 17 ), ExtResource( 16 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 4 ), ExtResource( 3 ) ],
 "loop": false,
 "name": "roll_right",
 "speed": 24.0
+}, {
+"frames": [ ExtResource( 52 ), ExtResource( 51 ), ExtResource( 50 ), ExtResource( 49 ), ExtResource( 48 ), ExtResource( 47 ), ExtResource( 46 ), ExtResource( 45 ), ExtResource( 44 ), ExtResource( 43 ), ExtResource( 42 ), ExtResource( 41 ), ExtResource( 40 ), ExtResource( 39 ), ExtResource( 38 ), ExtResource( 37 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 34 ), ExtResource( 33 ), ExtResource( 32 ), ExtResource( 31 ), ExtResource( 30 ), ExtResource( 29 ), ExtResource( 28 ) ],
+"loop": false,
+"name": "roll_down",
+"speed": 24.0
 } ]
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=3]
 resource_name = "CoolDown"
 length = 1.2
 loop = true
@@ -112,8 +112,7 @@ tracks/0/keys = {
 "values": [ Color( 0.368627, 0.368627, 0.368627, 1 ), Color( 0.313726, 0.231373, 0.231373, 1 ), Color( 0.368627, 0.368627, 0.368627, 1 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "Idle"
+[sub_resource type="Animation" id=4]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -165,7 +164,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=5]
 resource_name = "IdleDuplicate"
 length = 0.1
 loop = true
@@ -218,8 +217,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "Lock"
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
@@ -233,8 +231,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 0.368627, 0.368627, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "Respawn"
+[sub_resource type="Animation" id=7]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
@@ -248,8 +245,7 @@ tracks/0/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "release_lock"
+[sub_resource type="Animation" id=8]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -264,8 +260,7 @@ tracks/0/keys = {
 "values": [ Color( 0.368627, 0.368627, 0.368627, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "ui_down"
+[sub_resource type="Animation" id=9]
 tracks/0/type = "value"
 tracks/0/path = NodePath("TextureNode/AnimatedTexture:animation")
 tracks/0/interp = 1
@@ -291,8 +286,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "ui_left"
+[sub_resource type="Animation" id=10]
 tracks/0/type = "value"
 tracks/0/path = NodePath("TextureNode/AnimatedTexture:animation")
 tracks/0/interp = 1
@@ -318,7 +312,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=11]
 tracks/0/type = "value"
 tracks/0/path = NodePath("TextureNode/AnimatedTexture:animation")
 tracks/0/interp = 1
@@ -344,8 +338,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=10]
-resource_name = "ui_up"
+[sub_resource type="Animation" id=12]
 tracks/0/type = "value"
 tracks/0/path = NodePath("TextureNode/AnimatedTexture:animation")
 tracks/0/interp = 1
@@ -424,16 +417,16 @@ script = ExtResource( 61 )
 script = ExtResource( 62 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/CoolDown = SubResource( 11 )
-anims/Idle = SubResource( 3 )
-anims/IdleDuplicate = SubResource( 12 )
-anims/Lock = SubResource( 4 )
-anims/Respawn = SubResource( 6 )
-anims/release_lock = SubResource( 5 )
-anims/ui_down = SubResource( 7 )
-anims/ui_left = SubResource( 8 )
-anims/ui_right = SubResource( 9 )
-anims/ui_up = SubResource( 10 )
+anims/CoolDown = SubResource( 3 )
+anims/Idle = SubResource( 4 )
+anims/IdleDuplicate = SubResource( 5 )
+anims/Lock = SubResource( 6 )
+anims/Respawn = SubResource( 7 )
+anims/release_lock = SubResource( 8 )
+anims/ui_down = SubResource( 9 )
+anims/ui_left = SubResource( 10 )
+anims/ui_right = SubResource( 11 )
+anims/ui_up = SubResource( 12 )
 script = ExtResource( 63 )
 
 [node name="Tween" type="Tween" parent="."]

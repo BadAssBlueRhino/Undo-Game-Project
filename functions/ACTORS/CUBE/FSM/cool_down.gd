@@ -5,8 +5,8 @@ func enter(_host):
 	_host._animation_player.play("CoolDown")
 
 
-func handle_input(_host, _event):
-	if _event.is_action_released("ui_lock"):
+func update(_host, _delta):
+	if not Input.is_action_pressed("ui_lock"):
 		_host._animation_player.play("release_lock")
 
 

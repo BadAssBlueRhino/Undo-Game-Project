@@ -66,6 +66,8 @@ func _process(_delta: float) -> void:
 
 
 func update_z_index():
+	if actor_data.map_index.current == null:
+		return
 	var x_component = -1 * actor_data.map_index.current.x
 	var y_component = actor_data.map_index.current.y
 	z_index = x_component + y_component
@@ -78,6 +80,7 @@ func get_current_state_name():
 func _change_state(_new_state_name):
 	if not state.current == null:
 		state.current.exit(self)
+	
 	if _new_state_name == "previous":
 		state.previous_stack.pop_front()
 	elif _new_state_name in ["Move",]:
