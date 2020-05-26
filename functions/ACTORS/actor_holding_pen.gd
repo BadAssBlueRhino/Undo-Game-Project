@@ -92,7 +92,6 @@ func _check_movement(_event, _vector = null) -> bool:
 			_event_actors.append(_actor)
 	
 	if _event_actors.size() == 0:
-		print("False 1")
 		return false
 	
 	if not _check_if_valid(_event, _vector, _event_actors):
@@ -116,7 +115,6 @@ func _check_if_valid(_event, _vector, _event_actors):
 			_new_target_index = _event_actor.actor_data.map_index.current + _vector
 		
 		if not _map_loader.is_index_valid(_new_target_index):
-			print("False 2")
 			return false
 		_event_actor.actor_data.map_index.target = _new_target_index
 		_get_target_direction(_event_actor, _new_target_index)
@@ -128,7 +126,6 @@ func _check_event_specific_conflicts(_event, _event_actors):
 		for _actor in _all_actors:
 			if _event_actors.has(_actor) and (not _actor == _event_actor):
 				if _event_actor.actor_data.map_index.target == _actor.actor_data.map_index.current:
-					print("False 5")
 					return false
 	return true
 
@@ -156,10 +153,8 @@ func _check_if_conflict(_event_actors) -> bool:
 		for _actor in _all_actors:
 			if _event_actors.has(_actor) and (not _actor == _event_actor):
 				if _event_actor.actor_data.map_index.target == _actor.actor_data.map_index.target:
-					print("False 3")
 					return false
 			elif not _event_actors.has(_actor):
 				if _event_actor.actor_data.map_index.target == _actor.actor_data.map_index.current:
-					print("False 4")
 					return false
 	return true
