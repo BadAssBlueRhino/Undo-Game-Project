@@ -2,6 +2,7 @@ extends State
 
 
 func enter(_host):
+	print("1")
 	_host._animation_player.play("Idle")
 
 

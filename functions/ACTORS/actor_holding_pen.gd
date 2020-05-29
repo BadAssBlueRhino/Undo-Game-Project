@@ -3,7 +3,6 @@ extends Node
 
 var _all_actors := []
 var _map_to_world_func
-var all_actors_can_receive_input := true
 
 onready var _map_loader = get_node("../../TileMapLoader")
 
@@ -32,10 +31,9 @@ func add_actor(_actor) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	can_actors_receive_input()
-	
-	if not all_actors_can_receive_input:
+	if not can_actors_receive_input():
 		return
+
 	var _event := Input
 	var _direction_vector := Vector2()
 	
@@ -45,11 +43,11 @@ func _physics_process(_delta: float) -> void:
 	
 	if _event.is_action_pressed("ui_up"):
 		_direction_vector = Vector2(0, -1)
-	elif _event.is_action_pressed("ui_right"):
+	if _event.is_action_pressed("ui_right"):
 		_direction_vector = Vector2(1, 0)
-	elif _event.is_action_pressed("ui_down"):
+	if _event.is_action_pressed("ui_down"):
 		_direction_vector = Vector2(0, 1)
-	elif _event.is_action_pressed("ui_left"):
+	if _event.is_action_pressed("ui_left"):
 		_direction_vector = Vector2(-1, 0)
 	
 	if _direction_vector == Vector2() or not _check_movement("Idle", _direction_vector):
@@ -62,18 +60,13 @@ func _physics_process(_delta: float) -> void:
 func can_actors_receive_input():
 	for _actor in _all_actors:
 		if _actor.state.can_receive == false:
-			return
-	all_actors_can_receive_input = true
+			return false
+	return true
 
 
 func _input(_event: InputEvent) -> void:
-	if not all_actors_can_receive_input:
+	if not can_actors_receive_input():
 		return
-	
-	if _event.is_action_pressed("ui_cancel"):
-		get_tree().quit()
-	elif _event.is_action_pressed("ui_restart"):
-		GLB_events_bus.emit_signal("gui_restart_pressed")
 	
 	if _event.is_action_pressed("ui_undo"):
 		if _check_movement("Lock"):
@@ -102,6 +95,9 @@ func _check_movement(_event, _vector = null) -> bool:
 	
 	if not _check_if_conflict(_event_actors):
 		return false
+	
+	GLB_events_bus.emit_signal("actors_moved")
+	
 	return true
 
 

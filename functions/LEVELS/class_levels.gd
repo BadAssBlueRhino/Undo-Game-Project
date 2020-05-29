@@ -7,12 +7,16 @@ export var starting_map_index : Vector2
 var map_to_world_func = funcref(self, "_convert_map_to_world")
 
 func _ready() -> void:
+	if starting_map_index == Vector2():
+		printerr("Starting indedx not assigned.")
 	# warning-ignore:return_value_discarded
 	GLB_events_bus.connect("gui_restart_pressed", self, "_on_gui_restart_pressed")
 	# warning-ignore:return_value_discarded
 	GLB_events_bus.emit_signal("map_to_world_function", map_to_world_func)
 	# warning-ignore:return_value_discarded
 	GLB_events_bus.emit_signal("map_loaded", self)
+	# warning-ignore:return_value_discarded
+	GLB_events_bus.emit_signal("gui_restart_pressed")
 
 func _on_gui_restart_pressed() -> void:
 	print("Level reset.")
