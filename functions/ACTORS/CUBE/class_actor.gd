@@ -62,6 +62,8 @@ func initalize_state(_starting_index, _target_index = null):
 
 func _process(_delta: float) -> void:
 	update_z_index()
+	if state.current == null:
+		return
 	state.current.update(self, _delta)
 
 
