@@ -75,7 +75,7 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 6/shapes = [  ]
 6/z_index = 0
 
-[node name="Tile_Map_0" type="TileMap"]
+[node name="Map" type="TileMap"]
 modulate = Color( 0.521569, 0.521569, 0.521569, 1 )
 position = Vector2( 2950, -450 )
 mode = 2

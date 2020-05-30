@@ -6,7 +6,9 @@ var level_list := [
 	"res://functions/LEVELS/Tile_Maps/Tile_Map_1.tscn",
 	"res://functions/LEVELS/Tile_Maps/Tile_Map_2.tscn",
 	"res://functions/LEVELS/Tile_Maps/Tile_Map_4.tscn",
+	"res://functions/LEVELS/Tile_Maps/Tile_Map_3.tscn",
 	"res://functions/LEVELS/Tile_Maps/Tile_Map_5.tscn",
+	"res://functions/LEVELS/Tile_Maps/Tile_Map_6.tscn",
 ]
 
 
@@ -23,12 +25,12 @@ func _ready() -> void:
 	GLB_events_bus.connect("load_next_map", self, "_on_load_next_map")
 
 
-func load_starting_map():
-	current_level = 0
+func load_starting_map() -> void:
+	current_level = 2
 	load_map(level_list[current_level])
 
 
-func _on_load_next_map():
+func _on_load_next_map() -> void:
 	current_level += 1
 	if current_level >= level_list.size():
 		return
@@ -36,24 +38,22 @@ func _on_load_next_map():
 	GLB_events_bus.emit_signal("map_count_updated", current_level)
 
 
-func load_map(_map_path):
+func load_map(_map_path) -> void:
 	var _loaded_map = load(_map_path)
 	if not get_child_count() == 0:
 		for _child in get_children():
 			_child.queue_free()
 	var _map_child = _loaded_map.instance()
 	add_child(_map_child)
-	# GLB_events_bus.emit_signal("gui_restart_pressed")
 
 
-func _on_map_loaded(_map_object):
+func _on_map_loaded(_map_object) -> void:
 	_loaded_map = _map_object
 	vaild_map_indexs = _loaded_map.get_valid_map_indexs()
 	end_goal_indexs = _loaded_map.get_used_cells_by_id(end_goal_tile_index)
-	# GLB_events_bus.emit_signal("gui_restart_pressed")
 
 
-func is_index_valid(_index):
+func is_index_valid(_index) -> bool:
 	if not vaild_map_indexs.has(_index):
 		return false
 	return true
