@@ -33,7 +33,7 @@ func add_actor(_actor) -> void:
 func _physics_process(_delta: float) -> void:
 	if not can_actors_receive_input():
 		return
-
+	
 	var _event := Input
 	var _direction_vector := Vector2()
 	
@@ -50,7 +50,10 @@ func _physics_process(_delta: float) -> void:
 	if _event.is_action_pressed("ui_left"):
 		_direction_vector = Vector2(-1, 0)
 	
-	if _direction_vector == Vector2() or not _check_movement("Idle", _direction_vector):
+	if _direction_vector == Vector2():
+		return
+	
+	if not _check_movement("Idle", _direction_vector):
 		return
 	
 	for _actor in _all_actors:
@@ -74,15 +77,12 @@ func _input(_event: InputEvent) -> void:
 				_all_actors[_actor]._process_duplication()
 		elif _check_movement("IdleDuplicate"):
 			for _actor in _all_actors.size():
+				print("Process undo.")
 				_all_actors[_actor]._process_undo()
 
 
 func _check_movement(_event, _vector = null) -> bool:
-	var _event_actors := []
-	
-	for _actor in _all_actors:
-		if _actor.get_current_state_name() == _event:
-			_event_actors.append(_actor)
+	var _event_actors = _get_event_actors(_event)
 	
 	if _event_actors.size() == 0:
 		return false
@@ -90,15 +90,23 @@ func _check_movement(_event, _vector = null) -> bool:
 	if not _check_if_valid(_event, _vector, _event_actors):
 		return false
 	
-	if _event in ["Lock", "IdleDuplicate"] and not _check_event_specific_conflicts(_event, _event_actors):
-		return false
+	if _event in ["Lock"]:
+		if not _check_event_specific_conflicts(_event_actors):
+			return false
 	
 	if not _check_if_conflict(_event_actors):
 		return false
 	
 	GLB_events_bus.emit_signal("actors_moved")
-	
 	return true
+
+
+func _get_event_actors(_event) -> Array:
+	var _actors_array := []
+	for _actor in _all_actors:
+		if _actor.get_current_state_name() == _event:
+			_actors_array.append(_actor)
+	return _actors_array
 
 
 func _check_if_valid(_event, _vector, _event_actors):
@@ -107,7 +115,7 @@ func _check_if_valid(_event, _vector, _event_actors):
 		if _event in ["Lock", "IdleDuplicate"]:
 			if not _event_actor.actor_data.map_index.history.size() == 0:
 				_new_target_index = _event_actor.actor_data.map_index.history[0]
-		elif _event == "Idle":
+		elif _event in ["Idle"]:
 			_new_target_index = _event_actor.actor_data.map_index.current + _vector
 		
 		if not _map_loader.is_index_valid(_new_target_index):
@@ -117,7 +125,7 @@ func _check_if_valid(_event, _vector, _event_actors):
 	return true
 
 
-func _check_event_specific_conflicts(_event, _event_actors):
+func _check_event_specific_conflicts(_event_actors):
 	for _event_actor in _event_actors:
 		for _actor in _all_actors:
 			if _event_actors.has(_actor) and (not _actor == _event_actor):

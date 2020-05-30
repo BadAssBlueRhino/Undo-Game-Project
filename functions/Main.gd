@@ -1,5 +1,9 @@
 extends Node
 
+# Notes to do:
+# Add a timeer. Remove the move counter, or keep both
+# Add persistant score for your machine.
+
 
 onready var map_loader = find_node("TileMapLoader")
 onready var actor_holding_pen = find_node("ActorHoldingPen")

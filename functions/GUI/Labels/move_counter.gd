@@ -3,7 +3,9 @@ extends Label
 var move_counter : int
 
 func _ready() -> void:
+	# warning-ignore:return_value_discarded
 	GLB_events_bus.connect("actors_moved", self, "_on_actors_moved")
+	# warning-ignore:return_value_discarded
 	GLB_events_bus.connect("gui_restart_pressed", self, "_on_gui_restart_pressed")
 
 

@@ -2,17 +2,12 @@ extends State
 
 
 func enter(_host):
-	print("1")
 	_host._animation_player.play("Idle")
 
 
 func handle_input(_host, _event):
 	if _event.is_action_pressed("ui_lock"):
 		return "Lock"
-
-
-func _on_animation_finished(_animation_name):
-	return
 
 
 func handle_key_event(_host, _key_event_string):

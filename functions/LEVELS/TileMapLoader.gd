@@ -1,14 +1,20 @@
 extends Node
 
-
+export(int) var starting_level := 0
 var current_level : int
 var level_list := [
+	"res://functions/LEVELS/Tile_Maps/Tile_Map_0.tscn",
 	"res://functions/LEVELS/Tile_Maps/Tile_Map_1.tscn",
 	"res://functions/LEVELS/Tile_Maps/Tile_Map_2.tscn",
 	"res://functions/LEVELS/Tile_Maps/Tile_Map_4.tscn",
 	"res://functions/LEVELS/Tile_Maps/Tile_Map_3.tscn",
 	"res://functions/LEVELS/Tile_Maps/Tile_Map_5.tscn",
 	"res://functions/LEVELS/Tile_Maps/Tile_Map_6.tscn",
+	"res://functions/LEVELS/Tile_Maps/Tile_Map_7.tscn",
+	"res://functions/LEVELS/Tile_Maps/Tile_Map_8.tscn",
+	"res://functions/LEVELS/Tile_Maps/Tile_Map_9.tscn",
+	"res://functions/LEVELS/Tile_Maps/Tile_Map_10.tscn",
+	"res://functions/LEVELS/Tile_Maps/Tile_Map_11.tscn",
 ]
 
 
@@ -26,7 +32,7 @@ func _ready() -> void:
 
 
 func load_starting_map() -> void:
-	current_level = 2
+	current_level = starting_level
 	load_map(level_list[current_level])
 
 
